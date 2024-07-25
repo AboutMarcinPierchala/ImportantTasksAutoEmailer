@@ -1,0 +1,23 @@
+﻿@model Item
+
+<form method="post">
+    <input asp-for="Id" hidden />
+    <div class="form-group mt-3">
+        <label>Input Name</label>
+        <input type="text" placeholder="enter input name" asp-for="Name" style="width:300px" />
+    </div>
+    <div class="form-group mt-3">
+        <label>Input End Date</label>
+        <input type="date" placeholder="enter end date" asp-for="EndDate" />
+    </div>
+    <div class="row mt-5">
+        <div class="col-1 col-md-1">
+            <button type="submit"class="btn btn-primary form-control" style="width:100px">Update</button>
+        </div>
+        <div class="col-1 col-md-1">
+            <button class="btn btn-danger" asp-controller="Home" asp-action="Index">Cancel</button>
+        </div>
+    </div>
+
+
+</form>

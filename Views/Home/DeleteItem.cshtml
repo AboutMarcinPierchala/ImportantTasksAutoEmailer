@@ -1,0 +1,22 @@
+﻿@model Item
+
+<form method="post">
+    <div class="form-group mt-3">
+        <label>Input Name</label>
+        <input type="text" asp-for="Name" style="width:300px" disabled/>
+    </div>
+    <div class="form-group mt-3">
+        <label>Input End Date</label>
+        <input type="date" asp-for="EndDate" disabled/>
+    </div>
+    <div class="row mt-5">
+        <div class="col-1 col-md-1">
+            <button type="submit" class="btn btn-danger form-control" style="width:100px">Delete</button>
+        </div>
+        <div class="col-1 col-md-1">
+            <button class="btn btn-primary" asp-controller="Home" asp-action="Index">Cancel</button>
+        </div>
+    </div>
+
+
+</form>

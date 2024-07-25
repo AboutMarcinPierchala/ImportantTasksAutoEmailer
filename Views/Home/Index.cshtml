@@ -1,0 +1,97 @@
+﻿@model Item
+<style>
+    table {
+        border-collapse: collapse;
+        width: 100%;
+    }
+
+    th, td {
+        border: 1px solid black; /* Add borders to both th and td elements */
+        padding: 8px;
+        text-align: center;
+    }
+
+    .old-date {
+        background-color: red; /* Style for dates older than today */
+    }
+
+    .week-before {
+        background-color: orange; /* Style for dates 1 week before today */
+    }
+</style>
+<div class="main_grid">
+    @if (ViewBag.items is not null && ViewBag.items.Count >= 1)
+    {
+        <div class="row table-responsive">
+            <table class="table-striped">
+                <thead>
+                    <tr>
+                        <th>Item Number</th>
+                        <th>Item Name</th>
+                        <th>End Date</th>
+                        <th>Edit Btn</th>
+                        <th>Del Btn</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    @if (ViewBag.items is not null && ViewBag.items.Count >= 1)
+                    {
+                        @foreach (var item in ViewBag.items)
+                        {
+                            <tr>
+                                <td>@item.Id</td>
+                                <td>@item.Name</td>
+                                <td class="date-cell">@item.EndDate</td>
+                                <td scope="row"><a class="btn btn-info" asp-action="UpdateItem" asp-route-id="@item.Id" style="width:80px">Edit</a></td>
+                                <td scope="row"><a class="btn btn-danger" asp-action="DeleteItem" asp-route-id="@item.Id" style="width:80px">Delete</a></td>
+                            </tr>
+                        }
+                    }
+
+                </tbody>
+            </table>
+            <div style="text-align:right">
+                last refresh: @ViewBag.RefreshNow |||| next autorefresh: @ViewBag.RefreshNext
+            </div>
+        </div>
+    }
+    else
+    {
+        <h3 class="text-center">There is not any items to view <br />Add new item: <br /></h3>
+        <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="AddItem">Add New Item</a>
+    }
+
+</div>
+<script>
+    // Get all cells with class 'date-cell'
+    var dateCells = document.querySelectorAll('.date-cell');
+
+    // Iterate through each cell
+    dateCells.forEach(function (cell) {
+        // Get the date value from the cell
+        var dateString = cell.textContent; // Date string format: dd.mm.yyyy
+        var parts = dateString.split('.');
+        var cellDate = new Date(parts[2], parts[1] - 1, parts[0]); // Month is 0-based index in JavaScript
+
+        // Calculate the date 1 week before the current date
+        var oneWeekBefore = new Date();
+        oneWeekBefore.setDate(oneWeekBefore.getDate() + 7);
+
+        // Check if the cell date is 1 week before the current date
+        if (cellDate <= oneWeekBefore && cellDate > new Date()) {
+            // Add class 'week-before' to the cell
+            cell.classList.add('week-before');
+        } else if (cellDate < new Date()) {
+            // Add class 'old-date' to the cell
+            cell.classList.add('old-date');
+        }
+    });
+</script>
+<script>
+    // Function to reload the page
+    function reloadPage() {
+        location.reload();
+    }
+    setTimeout(reloadPage, 43200000);
+</script>
